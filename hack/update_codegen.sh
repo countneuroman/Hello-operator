@@ -12,7 +12,7 @@ CODEGEN_PKG=${CODEGEN_PKG:-$(
 
 source "${CODEGEN_PKG}/kube_codegen.sh"
 
-THIS_PKG="k8s.io/echo-controller"
+THIS_PKG="github.com/countneuroman/hello-operator"
 
 kube::codegen::gen_helpers \
     "${SCRIPT_ROOT}/pkg/apis"
