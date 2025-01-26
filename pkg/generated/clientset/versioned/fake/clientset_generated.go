@@ -4,8 +4,8 @@ package fake
 
 import (
 	clientset "github.com/countneuroman/hello-operator/pkg/generated/clientset/versioned"
-	hellocontrollerv1alpha1 "github.com/countneuroman/hello-operator/pkg/generated/clientset/versioned/typed/hellocontroller/v1alpha1"
-	fakehellocontrollerv1alpha1 "github.com/countneuroman/hello-operator/pkg/generated/clientset/versioned/typed/hellocontroller/v1alpha1/fake"
+	hellov1alpha1 "github.com/countneuroman/hello-operator/pkg/generated/clientset/versioned/typed/hellocontroller/v1alpha1"
+	fakehellov1alpha1 "github.com/countneuroman/hello-operator/pkg/generated/clientset/versioned/typed/hellocontroller/v1alpha1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"
@@ -67,7 +67,7 @@ var (
 	_ testing.FakeClient  = &Clientset{}
 )
 
-// HellocontrollerV1alpha1 retrieves the HellocontrollerV1alpha1Client
-func (c *Clientset) HellocontrollerV1alpha1() hellocontrollerv1alpha1.HellocontrollerV1alpha1Interface {
-	return &fakehellocontrollerv1alpha1.FakeHellocontrollerV1alpha1{Fake: &c.Fake}
+// HelloV1alpha1 retrieves the HelloV1alpha1Client
+func (c *Clientset) HelloV1alpha1() hellov1alpha1.HelloV1alpha1Interface {
+	return &fakehellov1alpha1.FakeHelloV1alpha1{Fake: &c.Fake}
 }

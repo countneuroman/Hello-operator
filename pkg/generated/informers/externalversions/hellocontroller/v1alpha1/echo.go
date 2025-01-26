@@ -46,13 +46,13 @@ func NewFilteredEchoInformer(client versioned.Interface, namespace string, resyn
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.HellocontrollerV1alpha1().Echos(namespace).List(context.TODO(), options)
+				return client.HelloV1alpha1().Echos(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.HellocontrollerV1alpha1().Echos(namespace).Watch(context.TODO(), options)
+				return client.HelloV1alpha1().Echos(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apishellocontrollerv1alpha1.Echo{},

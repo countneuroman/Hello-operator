@@ -11,10 +11,10 @@ import (
 // fakeEchos implements EchoInterface
 type fakeEchos struct {
 	*gentype.FakeClientWithList[*v1alpha1.Echo, *v1alpha1.EchoList]
-	Fake *FakeHellocontrollerV1alpha1
+	Fake *FakeHelloV1alpha1
 }
 
-func newFakeEchos(fake *FakeHellocontrollerV1alpha1, namespace string) hellocontrollerv1alpha1.EchoInterface {
+func newFakeEchos(fake *FakeHelloV1alpha1, namespace string) hellocontrollerv1alpha1.EchoInterface {
 	return &fakeEchos{
 		gentype.NewFakeClientWithList[*v1alpha1.Echo, *v1alpha1.EchoList](
 			fake.Fake,

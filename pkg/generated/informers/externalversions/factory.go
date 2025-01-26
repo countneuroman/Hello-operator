@@ -238,9 +238,9 @@ type SharedInformerFactory interface {
 	// client.
 	InformerFor(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer
 
-	Hellocontroller() hellocontroller.Interface
+	Hello() hellocontroller.Interface
 }
 
-func (f *sharedInformerFactory) Hellocontroller() hellocontroller.Interface {
+func (f *sharedInformerFactory) Hello() hellocontroller.Interface {
 	return hellocontroller.New(f, f.namespace, f.tweakListOptions)
 }

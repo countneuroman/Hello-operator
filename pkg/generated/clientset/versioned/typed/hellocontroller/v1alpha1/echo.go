@@ -38,7 +38,7 @@ type echos struct {
 }
 
 // newEchos returns a Echos
-func newEchos(c *HellocontrollerV1alpha1Client, namespace string) *echos {
+func newEchos(c *HelloV1alpha1Client, namespace string) *echos {
 	return &echos{
 		gentype.NewClientWithList[*hellocontrollerv1alpha1.Echo, *hellocontrollerv1alpha1.EchoList](
 			"echos",

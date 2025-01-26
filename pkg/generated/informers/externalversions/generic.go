@@ -36,9 +36,9 @@ func (f *genericInformer) Lister() cache.GenericLister {
 // TODO extend this to unknown resources with a client pool
 func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource) (GenericInformer, error) {
 	switch resource {
-	// Group=hellocontroller, Version=v1alpha1
+	// Group=hello.io, Version=v1alpha1
 	case v1alpha1.SchemeGroupVersion.WithResource("echos"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Hellocontroller().V1alpha1().Echos().Informer()}, nil
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Hello().V1alpha1().Echos().Informer()}, nil
 
 	}
 
