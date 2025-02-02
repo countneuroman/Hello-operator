@@ -1,3 +1,4 @@
+//TODO: Вынести в отдельный package controller
 package main
 
 type eventType string

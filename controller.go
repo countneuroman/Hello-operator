@@ -1,11 +1,14 @@
+// TODO: Вынести в отдельный package controller
 package main
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	corev1 "k8s.io/api/core/v1"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/scheme"
 	typedcorev1 "k8s.io/client-go/kubernetes/typed/core/v1"
@@ -39,7 +42,44 @@ type Controller struct {
 	//Позволяет записывать эвенты для наших API объектов
 	recorder record.EventRecorder
 
+	//TODO: Брать логгер через klog.FromContext?
 	logger klog.Logger
+}
+
+func (c *Controller) Run(ctx context.Context, numWorkers int) error {
+	defer utilruntime.HandleCrash()
+	defer c.queue.ShutDown()
+
+	c.logger.Info("Starting controller")
+
+	c.logger.Info("Starting informers")
+	for _, i := range []cache.SharedIndexInformer{
+		c.echoInformer,
+	} {
+		go i.Run(ctx.Done())
+	}
+
+	c.logger.Info("Waiting for informer caches to sync")
+	if !cache.WaitForCacheSync(ctx.Done(), []cache.InformerSynced{
+		c.echoInformer.HasSynced,
+	}... ) {
+		err := errors.New("Failed to wait for caches to sync")
+		utilruntime.HandleError(err)
+		return err
+	}
+
+	c.logger.Info("starting %d workers", numWorkers)
+	for i := 0; i < numWorkers; i++ {
+		go wait.Until(func() {
+			c.runWorker(ctx)
+		}, time.Second, ctx.Done())
+	}
+	c.logger.Info("Controller ready")
+
+	<-ctx.Done()
+	c.logger.Info("Controller stopping")
+
+	return nil
 }
 
 func (c * Controller) addEcho(obj interface{}) {
@@ -49,6 +89,7 @@ func (c * Controller) addEcho(obj interface{}) {
 		c.logger.Error(nil, "unexpected object")
 		return
 	}
+	//TODO: По факту мы не юзаем кэш информера? Т.к оперируем объектом напрямую.
 	c.queue.Add(event{
 		eventType: addEcho,
 		newObj:    echo.DeepCopy(),
