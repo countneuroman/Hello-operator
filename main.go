@@ -47,9 +47,8 @@ func main() {
 	kubeInfromerFactory := kubeinformers.NewSharedInformerFactory(kubeClient, time.Second*30)
 	echoInformerFactory := echoInformers.NewSharedInformerFactory(echoClient, time.Second*30)
 
-	//TODO: Получать неймспейс из конфига	
+	//TODO: Получать неймспейс из конфига
 	controller := NewController(ctx, kubeClient, echoClient, "default")
-
 
 	kubeInfromerFactory.Start(ctx.Done())
 	echoInformerFactory.Start(ctx.Done())
