@@ -38,7 +38,7 @@ func createJobSpec(name, namespace, msg string) batchv1.JobSpec {
 				Containers: []corev1.Container{
 					{
 						Name:            name,
-						Image:           "bussybox:1.37.0",
+						Image:           "busybox:1.37.0",
 						Command:         []string{"echo", msg},
 						ImagePullPolicy: "IfNotPresent",
 					},
