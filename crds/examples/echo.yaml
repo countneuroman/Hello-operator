@@ -1,0 +1,7 @@
+apiVersion: hello.io/v1alpha1
+kind: Echo
+metadata:
+  name: echo-sample
+  namespace: default
+spec:
+  message: "Hello World"
