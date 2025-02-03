@@ -2,16 +2,14 @@ package main
 
 import (
 	"flag"
-	"time"
-
+	
 	signals "github.com/countneuroman/hello-operator/pkg/signals"
-	kubeinformers "k8s.io/client-go/informers"
+
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog/v2"
 
 	clientset "github.com/countneuroman/hello-operator/pkg/generated/clientset/versioned"
-	echoInformers "github.com/countneuroman/hello-operator/pkg/generated/informers/externalversions"
 )
 
 var (
@@ -44,14 +42,9 @@ func main() {
 		klog.FlushAndExit(klog.ExitFlushTimeout, 1)
 	}
 
-	kubeInfromerFactory := kubeinformers.NewSharedInformerFactory(kubeClient, time.Second*30)
-	echoInformerFactory := echoInformers.NewSharedInformerFactory(echoClient, time.Second*30)
-
 	//TODO: Получать неймспейс из конфига
 	controller := NewController(ctx, kubeClient, echoClient, "default")
 
-	kubeInfromerFactory.Start(ctx.Done())
-	echoInformerFactory.Start(ctx.Done())
 
 	if err = controller.Run(ctx, 2); err != nil {
 		logger.Error(err, "Error running controller")

@@ -17,10 +17,13 @@ import (
 	"k8s.io/client-go/util/workqueue"
 	"k8s.io/klog/v2"
 
+	kubeinformers "k8s.io/client-go/informers"
+	echoInformers "github.com/countneuroman/hello-operator/pkg/generated/informers/externalversions"
+
+
 	echov1alpha1 "github.com/countneuroman/hello-operator/pkg/apis/hellocontroller/v1alpha1"
 	echoclientset "github.com/countneuroman/hello-operator/pkg/generated/clientset/versioned"
 	samplescheme "github.com/countneuroman/hello-operator/pkg/generated/clientset/versioned/scheme"
-	echoinformers "github.com/countneuroman/hello-operator/pkg/generated/informers/externalversions/hellocontroller/v1alpha1"
 )
 
 const controllerAgentName = "hello-controller"
@@ -32,6 +35,7 @@ type Controller struct {
 
 	//Используется информер, чтобы получать состояние сущностей, не обращаясь постоянно к kube-api
 	echoInformer cache.SharedIndexInformer
+	jobInformer cache.SharedIndexInformer
 
 	namespace string
 
@@ -111,9 +115,12 @@ func NewController(
 	eventBroadcaster.StartStructuredLogging(0)
 	eventBroadcaster.StartRecordingToSink(&typedcorev1.EventSinkImpl{Interface: kubeClientSet.CoreV1().Events("")})
 	recorder := eventBroadcaster.NewRecorder(scheme.Scheme, corev1.EventSource{Component: controllerAgentName})
-	indexer := cache.NewIndexer(cache.MetaNamespaceKeyFunc, cache.Indexers{
-		namespace: cache.MetaNamespaceIndexFunc})
-	echoInformer := echoinformers.NewEchoInformer(echoClientSet, namespace, 10*time.Second, indexer.GetIndexers())
+
+	kubeInfromerFactory := kubeinformers.NewSharedInformerFactory(kubeClientSet, time.Second*30)
+	echoInformerFactory := echoInformers.NewSharedInformerFactory(echoClientSet, time.Second*30)
+
+	echoInformer := echoInformerFactory.Hello().V1alpha1().Echos().Informer()
+	jobInformer := kubeInfromerFactory.Batch().V1().Jobs().Informer()
 	queue := workqueue.NewTypedRateLimitingQueue(workqueue.DefaultTypedControllerRateLimiter[event]())
 
 	controller := &Controller {
@@ -123,6 +130,7 @@ func NewController(
 		namespace: namespace,
 
 		echoInformer: echoInformer,
+		jobInformer: jobInformer,
 
 		queue: queue,
 

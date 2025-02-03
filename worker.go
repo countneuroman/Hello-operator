@@ -47,7 +47,7 @@ func (c *Controller) processEvent(ctx context.Context, event event) error {
 
 func (c *Controller) processEcho(ctx context.Context, echo *echov1alpha1.Echo) error {
 	job := createJob(echo, c.namespace)
-	exists, err := resurceExists(job, c.echoInformer.GetIndexer())
+	exists, err := resurceExists(job, c.jobInformer.GetIndexer())
 	if err != nil {
 		return fmt.Errorf("error checking job existence %v", err)
 	}
@@ -57,8 +57,8 @@ func (c *Controller) processEcho(ctx context.Context, echo *echov1alpha1.Echo) e
 	}
 
 	_, err = c.kubeclientset.BatchV1().
-	Jobs(c.namespace).
-	Create(ctx, job, metav1.CreateOptions{})
+		Jobs(c.namespace).
+		Create(ctx, job, metav1.CreateOptions{})
 	return err
 }
 
