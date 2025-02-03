@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	
+
 	signals "github.com/countneuroman/hello-operator/pkg/signals"
 
 	"k8s.io/client-go/kubernetes"
@@ -44,7 +44,6 @@ func main() {
 
 	//TODO: Получать неймспейс из конфига
 	controller := NewController(ctx, kubeClient, echoClient, "default")
-
 
 	if err = controller.Run(ctx, 2); err != nil {
 		logger.Error(err, "Error running controller")

@@ -116,6 +116,8 @@ func NewController(
 	eventBroadcaster.StartRecordingToSink(&typedcorev1.EventSinkImpl{Interface: kubeClientSet.CoreV1().Events("")})
 	recorder := eventBroadcaster.NewRecorder(scheme.Scheme, corev1.EventSource{Component: controllerAgentName})
 
+	//TODO: точно ли правильно сделано, мы же не стартуем informerFactoru
+	//по типу kubeInformerFactory.Start(ctx.Done())
 	kubeInfromerFactory := kubeinformers.NewSharedInformerFactory(kubeClientSet, time.Second*30)
 	echoInformerFactory := echoInformers.NewSharedInformerFactory(echoClientSet, time.Second*30)
 
