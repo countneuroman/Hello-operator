@@ -20,4 +20,5 @@
 [Официальный пример контроллера ](https://github.com/kubernetes/sample-controller)  
 [Пример оператора](https://github.com/mmontes11/echoperator)  
 [Заметки по kubernetes (Китайский)](https://github.com/huweihuang/kubernetes-notes)  
-[SDK для создания операторов](https://github.com/kubernetes-sigs/kubebuilder)
+[SDK для создания операторов](https://github.com/kubernetes-sigs/kubebuilder)  
+[Deep dive в генерацию на основе code-generat0r](https://www.redhat.com/en/blog/kubernetes-deep-dive-code-generation-customresources)
