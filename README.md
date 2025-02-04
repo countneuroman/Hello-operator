@@ -12,7 +12,8 @@
 ## Запуск
 1. Билдим контроллер: `go build -o hello-controller . `
 2. Добавляем CRD в кластер `kubectl create -f crds/echo.yaml`
-3. Запускаем контроллер `./hello-controller -kubeconfig=path-to-your-cluser-config.yaml`
+3. Запускаем контроллер `./hello-controller -kubeconfig=path-to-your-cluser-config.yaml`   
+Запусается не в виде пода, а прямо на нашей локальной машине, удаленно подключаясь к кластеру.
 4. Применяем пример нашего CRD `kubectl create -f crds/examples/echo.yaml`
 
 ## Полезные ссылки
