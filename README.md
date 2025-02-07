@@ -2,7 +2,7 @@ English|[Russian](README_RU.md)
 
 # Hello-operator
 
-Simple operator implemented using [client-go](https://github.com/kubernetes/client-go) and [code-generator](https://github.com/kubernetes/code-generator)  
+Simple kubernetes operator implemented using [client-go](https://github.com/kubernetes/client-go) and [code-generator](https://github.com/kubernetes/code-generator)  
 
 When applying our CRD controller create job, that launches pod, which outputs a string specified in our CRD in parameter `message`
 
