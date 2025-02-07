@@ -2,7 +2,7 @@ Russian|[English](README.md)
 
 # Hello-operator
 
-Простой оператор, реализованный с использованием [client-go](https://github.com/kubernetes/client-go) и [code-generator](https://github.com/kubernetes/code-generator)  
+Простой кубернетес оператор, реализованный с использованием [client-go](https://github.com/kubernetes/client-go) и [code-generator](https://github.com/kubernetes/code-generator)  
 
 При применении нашего CRD контроллер создает job, который запускает pod, который выводит строку, указанную в нашем CRD в пармметре `message`
 
